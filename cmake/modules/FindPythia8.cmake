@@ -19,7 +19,6 @@ FIND_PATH(PYTHIA8_INCLUDE_DIR NAMES Pythia.h PATHS
   ${SIMPATH}/include/pythia8  
   ${SIMPATH}/generators/include/pythia8  
   ${SIMPATH}/generators/pythia8/include  
-  NO_DEFAULT_PATH
 )
 
 FIND_PATH(PYTHIA8_LIB_DIR  NAMES libpythia8.so libpythia8.dylib PATHS
@@ -28,7 +27,6 @@ FIND_PATH(PYTHIA8_LIB_DIR  NAMES libpythia8.so libpythia8.dylib PATHS
   ${AlFa_DIR}/lib
   ${SIMPATH}/lib
   ${SIMPATH}/generators/lib
-  NO_DEFAULT_PATH
 )
 
 Find_Path(PYTHIA8DATA NAMES MainProgramSettings.xml PATHS

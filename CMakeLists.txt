@@ -62,11 +62,11 @@ SET(VMCWORKDIR ${CMAKE_SOURCE_DIR}/examples)
 # Up to now this is only a check since the code does not use
 # any of the features of the new standard
 Set(CheckSrcDir "${CMAKE_SOURCE_DIR}/cmake/checks")
-include(CheckCXX11Features)
+include(CheckCXX14Features)
 
 # FairRoot only uses C++11 or later, so we need an compiler which supports C++11
 # Check if the used compiler support C++11. If not stop with an error message
-If(NOT _HAS_CXX11_FLAG)
+If(NOT _HAS_CXX14_FLAG)
   Message(FATAL_ERROR "The used C++ compiler (${CMAKE_CXX_COMPILER}) does not support C++11. CbmRoot can only be compiled with compilers supporting C++11. Please install such a compiler.")
 EndIf()
 
@@ -83,18 +83,15 @@ include(cotire)
 #Check the compiler and set the compile and link flags
 Check_Compiler()
 
-# Check also if FairSoft has been compiled with C++11 or C++14 support
+# Check also if FairSoft has been compiled with C++14 support
 # If FairSoft is used the compiler flags provided by fairsoft-config
 # are added to the variable CMAKE_CXX_FLAGS.
 # If alibuild is used the compiler flags are passed on the command line
 # and are also added to CMAKE_CXX_FLAGS.
 # So check if CMAKE_CXX_FLAGS has the compiler flags -std=c++11 or -std=c++14
-String(FIND ${CMAKE_CXX_FLAGS} "-std=c++11" POS_C++11)
+String(FIND ${CMAKE_CXX_FLAGS} "-std=c++14" POS_C++11)
 If(${POS_C++11} EQUAL -1)
-  String(FIND ${CMAKE_CXX_FLAGS} "-std=c++14" POS_C++11)
-  If(${POS_C++11} EQUAL -1)
-    Message(FATAL_ERROR "FairSoft wasn't compiled with c++11 or c++14 support. Please recompile FairSoft with a compiler which supports at least c++11.")
-  EndIf()
+   Message(FATAL_ERROR "FairSoft wasn't compiled with c++14 support. Please recompile FairSoft with a compiler which supports at least c++14.")
 EndIf()
 
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib")
@@ -137,8 +134,8 @@ If(FAIRSOFT_CONFIG)
   IF(NOT DEFINED ENV{SIMPATH})
     MESSAGE(FATAL_ERROR "You did not define the environment variable SIMPATH which is nedded to find the external packages. Please set this variable and execute cmake again.")
   ENDIF(NOT DEFINED ENV{SIMPATH})
-  STRING(REGEX MATCHALL "[^:]+" PATH $ENV{PATH})
-  SET(SIMPATH $ENV{SIMPATH})
+  STRING(APPEND PATH $ENV{PATH})
+  SET(SIMPATH $ENV{SIMPATH} )
 endif()
 
 # Check if the external packages are installed into a separate install
@@ -249,18 +246,20 @@ If(WITH_DBASE)
   find_package(SQLITE)
 EndIf(WITH_DBASE)
 
-If(FAIRSOFT_EXTERN)
-  set(BOOST_ROOT ${SIMPATH})
-  set(GSL_DIR ${SIMPATH})
-Else(FAIRSOFT_EXTERN)
-  set(BOOST_ROOT ${SIMPATH}/basics/boost)
-  set(GSL_DIR ${SIMPATH}/basics/gsl)
-EndIf(FAIRSOFT_EXTERN)
+if( NOT USE_SHARED_LIBRARIES )
+	If(FAIRSOFT_EXTERN)
+	  set(BOOST_ROOT ${SIMPATH})
+	  set(GSL_DIR ${SIMPATH})
+	Else(FAIRSOFT_EXTERN)
+	  set(BOOST_ROOT ${SIMPATH}/basics/boost)
+	  set(GSL_DIR ${SIMPATH}/basics/gsl)
+	EndIf(FAIRSOFT_EXTERN)
 
-if(NOT DEFINED Boost_NO_SYSTEM_PATHS)
-  Set(Boost_NO_SYSTEM_PATHS TRUE)
+	if(NOT DEFINED Boost_NO_SYSTEM_PATHS)
+	  Set(Boost_NO_SYSTEM_PATHS TRUE)
+	endif()
+	Set(Boost_NO_BOOST_CMAKE TRUE)
 endif()
-Set(Boost_NO_BOOST_CMAKE TRUE)
 Message("-- Looking for Boost ...")
 # If an older version of boost is found both of the variables below are
 # cached and in a second cmake run, a good boost version is found even
@@ -309,15 +308,15 @@ Generate_Version_Info()
 # Set some useful variables
 SetBasicVariables()
 
-# Check C++11 availability
+# Check C++14 availability
 If(NOT CMAKE_CXX_FLAGS)
   Message(STATUS "No C++11 support found.")
 Else()
-  String(FIND " ${CMAKE_CXX_FLAGS} " "-std=c++11" POS_C++11)
-  If(POS_C++11)
-    Message(STATUS "C++11 support found.")
+  String(FIND " ${CMAKE_CXX_FLAGS} " "-std=c++14" POS_C++14)
+  If(POS_C++14)
+    Message(STATUS "C++14 support found.")
   Else()
-    Message(STATUS "No C++11 support found.")
+    Message(STATUS "No C++14 support found.")
   EndIf()
 EndIf()
 
@@ -342,8 +341,8 @@ EndIf ()
 add_subdirectory (MbsAPI)
 add_subdirectory (datamatch)
 
-If (Boost_FOUND AND POS_C++11 AND ZeroMQ_FOUND AND HAS_CXX11_PATTERN1)
-  Message(STATUS "Required C++11 feature(s), boost and ZeroMQ libraries found. FairMQ will be built.")
+If (Boost_FOUND AND POS_C++14 AND ZeroMQ_FOUND AND HAS_CXX11_PATTERN1)
+  Message(STATUS "Required C++14 feature(s), boost and ZeroMQ libraries found. FairMQ will be built.")
   add_subdirectory (fairmq)
   add_subdirectory (base/MQ)
   add_subdirectory (parmq)
