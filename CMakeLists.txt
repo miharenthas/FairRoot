@@ -63,7 +63,7 @@ SET(VMCWORKDIR ${CMAKE_SOURCE_DIR}/examples)
 # any of the features of the new standard
 Set(CheckSrcDir "${CMAKE_SOURCE_DIR}/cmake/checks")
 if( USE_CXX_11 )
-	include(CheckCXX11Fetures)
+	include(CheckCXX11Features)
 else()
 	include(CheckCXX14Features)
 endif()
