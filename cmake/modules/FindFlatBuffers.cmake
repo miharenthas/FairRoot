@@ -8,22 +8,25 @@
 
 MESSAGE(STATUS "Looking for FlatBuffers...")
 
-find_path(FLATBUFFERS_INCLUDE_DIR NAMES flatbuffers/flatbuffers.h PATHS
-  ${FLATBUFFERS_PATH}/include
-  ${SIMPATH}/include
-  NO_DEFAULT_PATH
+if(DEFINED ENV{MSGPACK_ROOT})
+    set(FLATBUFFERS_PATH $ENV{FLATBUFFERS_PATH})
+endif()
+
+find_path(FLATBUFFERS_INCLUDE_DIR NAMES flatbuffers/flatbuffers.h
+   HINTS
+  "${FLATBUFFERS_PATH}/include"
+  "${SIMPATH}/include"
 )
 
-find_path(FLATBUFFERS_LIBRARY_DIR NAMES libflatbuffers.a
-  PATHS ${FLATBUFFERS_PATH}/
-  ${SIMPATH}/lib
-  NO_DEFAULT_PATH
+find_path(FLATBUFFERS_LIBRARY_DIR NAMES libflatbuffers.so
+  HINTS "${FLATBUFFERS_PATH}/"
+        "${SIMPATH}/lib"
+        "/usr/lib64"
 )
 
 find_path(FLATBUFFERS_BINARY_DIR NAMES flatc
-  PATHS ${FLATBUFFERS_PATH}/
-  ${SIMPATH}/bin
-  NO_DEFAULT_PATH
+  HINTS "${FLATBUFFERS_PATH}/"
+        "${SIMPATH}/bin"
 )
 
 if(FLATBUFFERS_INCLUDE_DIR AND FLATBUFFERS_LIBRARY_DIR AND FLATBUFFERS_BINARY_DIR)

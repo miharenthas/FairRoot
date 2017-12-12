@@ -75,15 +75,19 @@ find_library(ZeroMQ_LIBRARY_SHARED NAMES "libzmq.dylib" "libzmq.so"
     DOC "Path to libzmq.dylib or libzmq.so"
 )
 
+
 find_library(ZeroMQ_LIBRARY_STATIC NAMES "libzmq.a"
     HINTS "${ZMQ_DIR}/lib"
-          "${AlFa_DIR}/lib"
-          "${SIMPATH}/lib"
-          "${ZEROMQ_ROOT}/lib"
+	  "${AlFa_DIR}/lib"
+	  "${SIMPATH}/lib"
+	  "${ZEROMQ_ROOT}/lib"
     DOC "Path to libzmq.a"
 )
 
-if(ZeroMQ_INCLUDE_DIR AND ZeroMQ_LIBRARY_SHARED AND ZeroMQ_LIBRARY_STATIC)
+
+if(ZeroMQ_INCLUDE_DIR AND ZeroMQ_LIBRARY_SHARED AND USE_SHARED_LIBRARIES)
+    set(ZeroMQ_FOUND TRUE)
+elseif( ZeroMQ_INCLUDE_DIR AND ZeroMQ_LIBRARY_SHARED AND ZeroMQ_LIBRARY_STATIC )
     set(ZeroMQ_FOUND TRUE)
 else()
     set(ZeroMQ_FOUND FALSE)

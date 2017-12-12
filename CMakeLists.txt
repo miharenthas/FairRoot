@@ -58,16 +58,20 @@ endif()
 
 SET(VMCWORKDIR ${CMAKE_SOURCE_DIR}/examples)
 
-# Check if the compiler support specific C++11 features
+# Check if the compiler support specific C++14 features
 # Up to now this is only a check since the code does not use
 # any of the features of the new standard
 Set(CheckSrcDir "${CMAKE_SOURCE_DIR}/cmake/checks")
-include(CheckCXX14Features)
+if( USE_CXX_11 )
+	include(CheckCXX11Fetures)
+else()
+	include(CheckCXX14Features)
+endif()
 
 # FairRoot only uses C++11 or later, so we need an compiler which supports C++11
 # Check if the used compiler support C++11. If not stop with an error message
-If(NOT _HAS_CXX14_FLAG)
-  Message(FATAL_ERROR "The used C++ compiler (${CMAKE_CXX_COMPILER}) does not support C++11. CbmRoot can only be compiled with compilers supporting C++11. Please install such a compiler.")
+If(NOT _HAS_CXX14_FLAG OR( _HAS_CXX11_FLAG AND USE_CXX_11 ) )
+  Message(FATAL_ERROR "The used C++ compiler (${CMAKE_CXX_COMPILER}) does not support C++11/14. CbmRoot can only be compiled with compilers supporting C++11/4. Please install such a compiler.")
 EndIf()
 
 
@@ -89,9 +93,10 @@ Check_Compiler()
 # If alibuild is used the compiler flags are passed on the command line
 # and are also added to CMAKE_CXX_FLAGS.
 # So check if CMAKE_CXX_FLAGS has the compiler flags -std=c++11 or -std=c++14
-String(FIND ${CMAKE_CXX_FLAGS} "-std=c++14" POS_C++11)
-If(${POS_C++11} EQUAL -1)
-   Message(FATAL_ERROR "FairSoft wasn't compiled with c++14 support. Please recompile FairSoft with a compiler which supports at least c++14.")
+String(FIND ${CMAKE_CXX_FLAGS} "-std=c++14" POS_C++14)
+String(FIND ${CMAKE_CXX_FLAGS} "-std=c++11" POS_C++11)
+If(${POS_C++14} EQUAL -1 OR( ${POS_C++11} EQUAL -1 AND USE_CXX_11 ) )
+   Message(FATAL_ERROR "FairSoft wasn't compiled with c++11/14 support. Please recompile FairSoft with a compiler which supports at least c++14.")
 EndIf()
 
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib")
@@ -224,7 +229,7 @@ endif(FAIRROOT_MODULAR_BUILD)
 
 find_package(CUDA)
 find_package(IWYU)
-find_package(ZeroMQ 4.1.3)
+find_package(ZeroMQ)
 find_package(nanomsg)
 find_package(Protobuf)
 find_package(Msgpack)
@@ -310,12 +315,15 @@ SetBasicVariables()
 
 # Check C++14 availability
 If(NOT CMAKE_CXX_FLAGS)
-  Message(STATUS "No C++11 support found.")
+  Message(STATUS "No C++11/14 support found.")
 Else()
   String(FIND " ${CMAKE_CXX_FLAGS} " "-std=c++14" POS_C++14)
+  String(FIND " ${CMAKE_CXX_FLAGS} " "-std=c++11" POS_C++11)
   If(POS_C++14)
     Message(STATUS "C++14 support found.")
-  Else()
+  ElseIf(POS_C++11 AND USE_CXX_11 )
+    Message( STATUS "C++11 support found." )
+  else()
     Message(STATUS "No C++14 support found.")
   EndIf()
 EndIf()
@@ -341,7 +349,7 @@ EndIf ()
 add_subdirectory (MbsAPI)
 add_subdirectory (datamatch)
 
-If (Boost_FOUND AND POS_C++14 AND ZeroMQ_FOUND AND HAS_CXX11_PATTERN1)
+If (Boost_FOUND AND( POS_C++14 OR POS_C++11 ) AND ZeroMQ_FOUND AND( HAS_CXX14_PATTERN1 OR HAS_CXX14_PATTERN1 ) )
   Message(STATUS "Required C++14 feature(s), boost and ZeroMQ libraries found. FairMQ will be built.")
   add_subdirectory (fairmq)
   add_subdirectory (base/MQ)

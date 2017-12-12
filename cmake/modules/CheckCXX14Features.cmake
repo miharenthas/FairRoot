@@ -32,6 +32,7 @@
 #=============================================================================
 # Copyright 2011,2012 Rolf Eike Beer <eike@sf-mail.de>
 # Copyright 2012 Andreas Weis
+# Copyleft  2017 Lorenzo Zanetti <lzanetti@ikp.tu-darmstad.de>
 #
 # Distributed under the OSI-approved BSD License (the "License");
 # see accompanying file Copyright.txt for details.
