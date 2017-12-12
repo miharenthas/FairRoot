@@ -95,8 +95,8 @@ Check_Compiler()
 # So check if CMAKE_CXX_FLAGS has the compiler flags -std=c++11 or -std=c++14
 String(FIND ${CMAKE_CXX_FLAGS} "-std=c++14" POS_C++14)
 String(FIND ${CMAKE_CXX_FLAGS} "-std=c++11" POS_C++11)
-If(${POS_C++14} EQUAL -1 OR( ${POS_C++11} EQUAL -1 AND USE_CXX_11 ) )
-   Message(FATAL_ERROR "FairSoft wasn't compiled with c++11/14 support. Please recompile FairSoft with a compiler which supports at least c++14.")
+If(${POS_C++14} EQUAL -1 AND( ${POS_C++11} EQUAL -1 AND USE_CXX_11 ) )
+   Message(FATAL_ERROR "FairSoft wasn't compiled with c++11/14 support. Please recompile FairSoft with a compiler which supports at least c++11.")
 EndIf()
 
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/lib")
