@@ -70,7 +70,7 @@ endif()
 
 # FairRoot only uses C++11 or later, so we need an compiler which supports C++11
 # Check if the used compiler support C++11. If not stop with an error message
-If(NOT _HAS_CXX14_FLAG OR( _HAS_CXX11_FLAG AND USE_CXX_11 ) )
+If(NOT( _HAS_CXX14_FLAG OR( _HAS_CXX11_FLAG AND USE_CXX_11 ) ) )
   Message(FATAL_ERROR "The used C++ compiler (${CMAKE_CXX_COMPILER}) does not support C++11/14. CbmRoot can only be compiled with compilers supporting C++11/4. Please install such a compiler.")
 EndIf()
 
