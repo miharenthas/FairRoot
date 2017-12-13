@@ -348,7 +348,7 @@ EndIf ()
 add_subdirectory (MbsAPI)
 add_subdirectory (datamatch)
 
-If (Boost_FOUND AND( POS_C++14 OR POS_C++11 ) AND ZeroMQ_FOUND AND( HAS_CXX14_PATTERN1 OR HAS_CXX14_PATTERN1 ) )
+If (Boost_FOUND AND( POS_C++14 OR POS_C++11 ) AND ZeroMQ_FOUND AND( HAS_CXX14_PATTERN1 OR HAS_CXX11_PATTERN1 ) )
   Message(STATUS "Required C++11/14 feature(s), boost and ZeroMQ libraries found. FairMQ will be built.")
   add_subdirectory (fairmq)
   add_subdirectory (base/MQ)
