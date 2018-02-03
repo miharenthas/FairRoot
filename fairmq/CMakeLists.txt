@@ -217,6 +217,7 @@ target_include_directories(FairMQ
 ##################
 # link libraries #
 ##################
+
 target_link_libraries(FairMQ
     INTERFACE # only consumers link against interface dependencies
 
@@ -244,7 +245,6 @@ target_link_libraries(FairMQ
 ###############
 # executables #
 ###############
-
 add_executable(bsampler run/runBenchmarkSampler.cxx)
 target_link_libraries(bsampler FairMQ)
 
