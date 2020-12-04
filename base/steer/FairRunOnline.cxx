@@ -42,6 +42,7 @@
 #include "TH1F.h"
 #include "TH2F.h"
 #include "THttpServer.h"
+#include "TObjString.h"
 
 #include <signal.h>
 #include <stdlib.h>

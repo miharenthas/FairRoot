@@ -21,6 +21,7 @@
 
 #include "TMessage.h"
 #include "TVector3.h"
+#include "TObjString.h"
 
 #include "PixelPayload.h"
 #include "PixelHit.h"

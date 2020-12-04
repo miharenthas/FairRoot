@@ -13,7 +13,7 @@ If(GEANT3_FOUND)
   add_subdirectory(simulation/Tutorial1)
   add_subdirectory(simulation/Tutorial2)
 
-  add_subdirectory(simulation/Tutorial4)
+#   add_subdirectory(simulation/Tutorial4)
   If(Boost_FOUND AND POS_C++11 AND ZeroMQ_FOUND AND HAS_CXX11_PATTERN1)
     add_subdirectory(advanced/Tutorial3)
     add_subdirectory(MQ/7-parameters)

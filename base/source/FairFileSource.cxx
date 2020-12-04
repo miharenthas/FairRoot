@@ -29,6 +29,8 @@
 #include "FairRootManager.h"
 #include "TRandom.h"                    // for TRandom, gRandom
 #include "TROOT.h"
+#include "TObjString.h"
+
 #include <list>                         // for _List_iterator, list, etc
 #include <typeinfo>
 using std::map;

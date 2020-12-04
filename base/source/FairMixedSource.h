@@ -17,6 +17,7 @@
 #define __FAIRROOT__FairMixedSource__
 
 #include "FairSource.h"
+#include "TObjString.h"
 #include <list>    
 #include "TChain.h"
 #include "TFile.h"

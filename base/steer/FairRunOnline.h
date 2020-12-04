@@ -20,6 +20,7 @@
 #include "FairRootManager.h"
 
 #include "TString.h"
+#include "TObjString.h"
 #include <iostream>
 
 class FairRuntimeDb;

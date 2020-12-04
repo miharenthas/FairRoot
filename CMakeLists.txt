@@ -364,7 +364,7 @@ if(BUILD_DOXYGEN)
   ADD_SUBDIRECTORY(doxygen)
 endif(BUILD_DOXYGEN)
 
-Option(BUILD_EXAMPLES "Build Examples" ON)
+# Option(BUILD_EXAMPLES "Build Examples" ON)
 if(BUILD_EXAMPLES)
   add_subdirectory (examples)
 endif(BUILD_EXAMPLES)

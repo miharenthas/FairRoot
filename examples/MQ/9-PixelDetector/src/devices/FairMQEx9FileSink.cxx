@@ -16,6 +16,7 @@
 #include <boost/bind.hpp>
 
 #include "TMessage.h"
+#include "TObjString.h"
 
 #include "FairMQEx9FileSink.h"
 #include "FairMQLogger.h"

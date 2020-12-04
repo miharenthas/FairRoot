@@ -21,6 +21,7 @@
 #include "FairLogger.h"
 #include "FairRootManager.h"
 #include "TObjArray.h"
+#include "TObjString.h"
 #include <map> 
 #include <set> 
 #include <algorithm>                    // for find
